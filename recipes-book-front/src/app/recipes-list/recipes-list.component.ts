@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipesService } from '../core/services/recipes.service';
 import { DataViewModule } from 'primeng/dataview';
@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
+import { combineLatest, map } from 'rxjs';
+import { Recipe } from '../core/model/recipe.model';
 
 @Component({
   selector: 'app-recipes-list',
@@ -32,6 +34,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class RecipesListComponent {
   recipes$ = this.service.recipes$;
+  filterRecipesAction$ = this.service.filterRecipesAction$;
+  filteredRecipes$ = combineLatest([
+    this.recipes$,
+    this.filterRecipesAction$,
+  ]).pipe(
+    map(([recipes, filter]: [Recipe[], Recipe]) => {
+      const filterTitle = filter?.title?.toLowerCase() ?? '';
+
+      return recipes.filter((recipe) =>
+        recipe.title?.toLowerCase().includes(filterTitle),
+      );
+    }),
+  );
 
   constructor(private service: RecipesService) {}
 }

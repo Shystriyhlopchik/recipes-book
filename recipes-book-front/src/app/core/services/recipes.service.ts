@@ -3,14 +3,7 @@ import { Injectable } from '@angular/core';
 import { Recipe } from '../model/recipe.model';
 import { environment } from 'src/environments/environment';
 import {
-  catchError,
-  delay,
-  delayWhen,
-  of,
-  retry,
-  retryWhen,
-  tap,
-  timer,
+  BehaviorSubject,
 } from 'rxjs';
 const BASE_PATH = environment.basePath;
 
@@ -18,9 +11,17 @@ const BASE_PATH = environment.basePath;
   providedIn: 'root',
 })
 export class RecipesService {
+  private filterRecipeSubject = new BehaviorSubject<Recipe>({title: ''});
+
+  filterRecipesAction$ = this.filterRecipeSubject.asObservable();
+
   recipes$ = this.http
-    .get<Recipe[]>(`${BASE_PATH}/recipe`)
-    .pipe(catchError(() => of([])));
+    .get<Recipe[]>(`${BASE_PATH}/recipes`);
 
   constructor(private http: HttpClient) {}
+
+  updateFilter(criteria: Recipe) {
+    console.log(criteria);
+    this.filterRecipeSubject.next(criteria);
+  }
 }

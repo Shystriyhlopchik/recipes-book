@@ -1,0 +1,26 @@
+<div class="rp-data-view">
+  <form [formGroup]="recipeForm">
+    <fieldset class="rp-filters-group">
+      <legend>Фильтр</legend>
+      <div class="rp-filter-button">
+        <p-button
+                  label="Очистить фильтр" (onClick)="clearFilters()"></p-button>
+      </div>
+      <label for="title">Ключевое слово:</label>
+      <input type="text" id="title" formControlName="title">
+      <label for="category">Категории:</label>
+      <input type="text" id="category" formControlName="category">
+      <label for="ingredients">Ингредиент:</label>
+      <input type="text" id="ingredients" formControlName="ingredients">
+      <label for="text">Теги:</label>
+      <input type="text" id="tags" formControlName="tags">
+      <label for="text">Время подготовки:</label>
+      <input type="text" id="prepTime" formControlName="prepTime">
+      <label for="text">Время готовки:</label>
+      <input type="text" id="cookingTime" formControlName="cookingTime">
+      <div class="rp-filter-button">
+        <p-button class="rp-filter-button" (onClick)="filterResults()" label="Отфильтровать"></p-button>
+      </div>
+    </fieldset>
+  </form>
+</div>

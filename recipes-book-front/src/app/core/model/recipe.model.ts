@@ -5,6 +5,7 @@ export interface Recipe {
     ingredients?: string;
     tags?: string;
     imageUrl?: string;
+    category?: string;
     cookingTime?: number;
     prepTime?: number;
     yield?: number;
